@@ -16,7 +16,11 @@ class Match(models.Model):
 
 
 class Statistics(models.Model):
-    match = models.OneToOneField(Match, on_delete=models.CASCADE)
+    match = models.ForeignKey(
+        Match, on_delete=models.CASCADE, related_name='statistics')
+    home_odds = models.FloatField(null=True)
+    draw_odds = models.FloatField(null=True)
+    away_odds = models.FloatField(null=True)
     time = models.TimeField()
 
     class Meta:
