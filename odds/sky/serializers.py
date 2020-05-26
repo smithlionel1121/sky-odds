@@ -5,7 +5,7 @@ from .models import Match, Statistics
 
 class MatchSerializer(serializers.HyperlinkedModelSerializer):
     statistics = serializers.HyperlinkedRelatedField(
-        view_name='statistic-detail', read_only=True, many=True)
+        view_name='statistics-detail', read_only=True, many=True)
 
     class Meta:
         model = Match
@@ -13,7 +13,8 @@ class MatchSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StatisticsSerializer(serializers.HyperlinkedModelSerializer):
-    match = serializers.ReadOnlyField(source='match.sky_url')
+    sky = serializers.ReadOnlyField(source='match.sky_url')
+    #ref = serializers.HyperlinkedIdentityField(view_name='statistics-detail')
 
     class Meta:
         model = Statistics

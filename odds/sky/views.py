@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from .serializers import MatchSerializer, StatisticsSerializer
 from .models import Match, Statistics
+from rest_framework.decorators import action
+from rest_framework.response import Response
 # Create your views here.
 
 

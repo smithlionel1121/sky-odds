@@ -10,6 +10,12 @@ pylint = "*"
 django = "*"
 djangorestframework = "*"
 psycopg2 = "*"
+requests-html = "*"
+dash = "*"
+dash-renderer = "*"
+dash-core-components = "*"
+dash-html-components = "*"
+plotly = "*"
 
 [requires]
 python_version = "3.8"
