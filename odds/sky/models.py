@@ -6,6 +6,7 @@ from django.db import models
 # Create your models here.
 import re
 from requests_html import HTMLSession
+from pyppeteer.errors import TimeoutError
 
 
 class Match(models.Model):
@@ -53,6 +54,9 @@ class Statistics(models.Model):
         self.home_score, self.away_score = data_source.score()
         super(Statistics, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{str(self.match)} {self.minutes}"
+
 
 async def get_post(your_query_url):
     new_loop = asyncio.new_event_loop()
@@ -65,10 +69,15 @@ async def get_post(your_query_url):
         'handleSIGTERM': False,
         'handleSIGHUP': False
     })
-    session._browser = browser
-    resp_page = await session.get(your_query_url)
-    await resp_page.html.arender()
-    return resp_page
+    try:
+        session._browser = browser
+        resp_page = await session.get(your_query_url)
+        await resp_page.html.arender()
+        await session.close()
+        return resp_page
+    except TimeoutError:
+        await session.close()
+        raise TimeoutError
 
 
 class SkyScraping:
@@ -124,8 +133,10 @@ class SkyScraping:
             return None
 
     def teams(self):
-        home_team = self.scrape.html.find(
-            '.in-play-scoreboard__fixture-team--home', first=True).text
+        home = self.scrape.html.find(
+            '.in-play-scoreboard__fixture-team--home', first=True)
+        home_team = home.find(
+            '.in-play-scoreboard__team-name', first=True).text
 
         away = self.scrape.html.find(
             '.in-play-scoreboard__score-team-away', first=True)

@@ -4,6 +4,8 @@ import { addMatch } from "../../actions/match";
 import PropTypes from "prop-types";
 
 const baseUrl = "https://m.skybet.com/football/football-live/event/";
+const home_team = "Home";
+const away_team = "Away";
 
 class Form extends Component {
   state = {
@@ -38,17 +40,19 @@ class Form extends Component {
       kick_off,
     } = this.state;
 
-    const matchUrl = baseUrl + eventUrl;
+    const sky_url = baseUrl + eventUrl;
     const home_odds = decimalOdds(homeOddsNumerator, homeOddsDenominator);
     const draw_odds = decimalOdds(drawOddsNumerator, drawOddsDenominator);
     const away_odds = decimalOdds(awayOddsNumerator, awayOddsDenominator);
 
     const match = {
-      sky_url: matchUrl,
+      sky_url,
       home_odds,
       draw_odds,
       away_odds,
       kick_off,
+      home_team,
+      away_team,
     };
     this.props.addMatch(match);
 
@@ -83,7 +87,7 @@ class Form extends Component {
             <div className="form-group">
               <div className="input-group mb-3">
                 <div className="input-group-prepend">
-                  <span className="input-group-text">{baseUrl}</span>
+                  <span className="input-group-text">...event/</span>
                 </div>
                 <input
                   type="text"
