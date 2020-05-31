@@ -9,7 +9,6 @@ import store from "../store";
 import Nav from "./layout/Nav";
 import Form from "./match/Form";
 import Chart from "./match/Chart";
-import Temp from "./match/Temp";
 
 export class App extends Component {
   render() {

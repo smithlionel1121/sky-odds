@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { addMatch } from "../../actions/match";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const baseUrl = "https://m.skybet.com/football/football-live/event/";
 const home_team = "Home";

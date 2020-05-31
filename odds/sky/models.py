@@ -73,10 +73,10 @@ async def get_post(your_query_url):
         session._browser = browser
         resp_page = await session.get(your_query_url)
         await resp_page.html.arender()
-        await session.close()
+        await browser.close()
         return resp_page
     except TimeoutError:
-        await session.close()
+        await browser.close()
         raise TimeoutError
 
 
