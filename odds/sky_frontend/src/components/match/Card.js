@@ -16,24 +16,20 @@ export class Card extends Component {
     getData: PropTypes.func.isRequired,
   };
 
-  startScrape = e => {
-    e.preventDefault();
+  startScrape = () => {
     const url = this.props.match.url;
-    setInterval(() => this.props.getData(url), 60000);
+    this.intervalID = setInterval(() => this.props.getData(url), 5000);
     this.setState({
       scraping: true,
     });
   };
 
-  stopScrape = e => {
-    e.preventDefault();
-    clearInterval(this.props.getData);
+  stopScrape = () => {
+    clearInterval(this.intervalID);
     this.setState({
       scraping: false,
     });
   };
-
-  componentDidMount() {}
 
   render() {
     const start = (
