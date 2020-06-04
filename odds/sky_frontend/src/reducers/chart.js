@@ -21,6 +21,7 @@ const initialState = {
   layout: {
     datarevision: 0,
     title: "Match Odds",
+    autosize: true,
     xaxis: {
       title: "Minutes",
       rangemode: "tozero",
@@ -31,8 +32,6 @@ const initialState = {
       rangemode: "nonnegative",
       autorange: true,
     },
-    // height: 240,
-    // width: 320,
   },
   revision: 0,
 };

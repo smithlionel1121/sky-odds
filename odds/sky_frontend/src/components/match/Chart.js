@@ -2,6 +2,9 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 import Plot from "react-plotly.js";
 
 import Card from "./Card";
@@ -17,18 +20,27 @@ class Chart extends Component {
     this.props.chart.awayOdds.name = `${this.props.match.away_team} Win`;
     return (
       <Fragment>
-        <Card />
-        <Plot
-          data={[
-            this.props.chart.homeOdds,
-            this.props.chart.drawOdds,
-            this.props.chart.awayOdds,
-          ]}
-          layout={this.props.chart.layout}
-          revision={this.props.chart.revision}
-          config={{ responsive: true }}
-          graphDiv="Graph"
-        />
+        <Row>
+          <Col>
+            <Card />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Plot
+              style={{ maxWidth: "100%", margin: "auto" }}
+              data={[
+                this.props.chart.homeOdds,
+                this.props.chart.drawOdds,
+                this.props.chart.awayOdds,
+              ]}
+              layout={this.props.chart.layout}
+              revision={this.props.chart.revision}
+              config={{ responsive: true }}
+              debug={true}
+            />
+          </Col>
+        </Row>
       </Fragment>
     );
   }
