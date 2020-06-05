@@ -4,11 +4,20 @@ import { addMatch } from "../../actions/match";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+import Form from "react-bootstrap/Form";
+import Accordion from "react-bootstrap/Accordion";
+import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
+
 const baseUrl = "https://m.skybet.com/football/football-live/event/";
 const home_team = "Home";
 const away_team = "Away";
 
-class Form extends Component {
+class EventForm extends Component {
   state = {
     eventUrl: "",
     homeOddsNumerator: "",
@@ -55,6 +64,7 @@ class Form extends Component {
       home_team,
       away_team,
     };
+    console.log(match);
     this.props.addMatch(match);
 
     this.setState({
@@ -82,185 +92,122 @@ class Form extends Component {
     } = this.state;
     return (
       <Fragment>
-        <form className="mx-md-3" onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label className="control-label">Sky Event URL:</label>
-            <div className="form-group">
-              <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">...event/</span>
-                </div>
-                <input
-                  type="text"
-                  className="form-control"
-                  aria-label="URL Match ID"
-                  name="eventUrl"
-                  onChange={this.onChange}
-                  value={eventUrl}
-                />
-              </div>
-            </div>
-          </div>
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group controlId="skyEventUrlNumber">
+            <Form.Label>Sky Event URL:</Form.Label>
+            <Form.Control
+              placeholder="e.g. 123456789"
+              name={"eventUrl"}
+              value={eventUrl}
+              onChange={this.onChange}
+            />
+          </Form.Group>
 
-          <div className="container-fluid pt-4">
-            <div className="form-group row">
-              <div className="col" id="homeOddsAccordian">
-                <div className="row">
-                  <div className="form-check form-check-inline col d-flex justify-content-center">
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="homeOddsCheck"
-                      className="form-check-inline"
-                      data-toggle="collapse"
-                      data-target="#homeOddsInput"
-                    />
-                    <label htmlFor="homeOddsCheck" className="form-check-label">
-                      Home Odds
-                    </label>
-                  </div>
-                </div>
-                <div
-                  className="row mx-auto collapse"
-                  id="homeOddsInput"
-                  data-parent="#homeOddsAccordian"
-                >
-                  <div className="col d-flex justify-content-center">
-                    <input
-                      type="number"
-                      name="homeOddsNumerator"
-                      id=""
-                      className="form-control"
-                      value={homeOddsNumerator}
-                      onChange={this.onChange}
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">/</span>
-                    </div>
-                    <input
-                      type="number"
-                      name="homeOddsDenominator"
-                      id=""
-                      className="form-control"
-                      value={homeOddsDenominator}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col" id="drawOddsAccordian">
-                <div className="row">
-                  <div className="form-check form-check-inline col d-flex justify-content-center">
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="drawOddsCheck"
-                      className="form-check-inline"
-                      data-toggle="collapse"
-                      data-target="#drawOddsInput"
-                    />
-                    <label htmlFor="drawOddsCheck" className="form-check-label">
-                      Draw Odds
-                    </label>
-                  </div>
-                </div>
-                <div
-                  className="row mx-auto collapse"
-                  id="drawOddsInput"
-                  data-parent="#drawOddsAccordian"
-                >
-                  <div className="col d-flex justify-content-center">
-                    <input
-                      type="number"
-                      name="drawOddsNumerator"
-                      id=""
-                      className="form-control"
-                      value={drawOddsNumerator}
-                      onChange={this.onChange}
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">/</span>
-                    </div>
-                    <input
-                      type="number"
-                      name="drawOddsDenominator"
-                      id=""
-                      className="form-control"
-                      value={drawOddsDenominator}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col" id="awayOddsAccordian">
-                <div className="row">
-                  <div className="form-check form-check-inline col d-flex justify-content-center">
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="awayOddsCheck"
-                      className="form-check-inline"
-                      data-toggle="collapse"
-                      data-target="#awayOddsInput"
-                    />
-                    <label htmlFor="awayOddsCheck" className="form-check-label">
-                      Away Odds
-                    </label>
-                  </div>
-                </div>
-                <div
-                  className="row mx-auto collapse"
-                  id="awayOddsInput"
-                  data-parent="#awayOddsAccordian"
-                >
-                  <div className="col d-flex justify-content-center">
-                    <input
-                      type="number"
-                      name="awayOddsNumerator"
-                      id=""
-                      className="form-control"
-                      value={awayOddsNumerator}
-                      onChange={this.onChange}
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">/</span>
-                    </div>
-                    <input
-                      type="number"
-                      name="awayOddsDenominator"
-                      id=""
-                      className="form-control"
-                      value={awayOddsDenominator}
-                      onChange={this.onChange}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Form.Row>
+            <Accordion as={Col} sm={4} className="pt-2">
+              <Accordion.Toggle
+                as={Form.Check}
+                label="H Odds"
+                type="checkbox"
+                eventKey="homeOddsInput"
+                className="text-center"
+              />
+              <Accordion.Collapse eventKey="homeOddsInput">
+                <InputGroup>
+                  <Form.Control
+                    name={"homeOddsNumerator"}
+                    value={homeOddsNumerator}
+                    onChange={this.onChange}
+                  />
+                  <InputGroup.Append>
+                    <InputGroup.Text>/</InputGroup.Text>
+                  </InputGroup.Append>
+                  <Form.Control
+                    name={"homeOddsDenominator"}
+                    value={homeOddsDenominator}
+                    onChange={this.onChange}
+                  />
+                </InputGroup>
+              </Accordion.Collapse>
+            </Accordion>
 
-          <div className="form-group pt-2">
-            <div className="form-check form-check-inline col d-flex justify-content-center">
-              <label htmlFor="Kick-Off" className="form-check-label">
-                Kick Off Time:
-              </label>
-              <br />
-              <input
+            <Accordion as={Col} sm={4} className="pt-2">
+              <Accordion.Toggle
+                as={Form.Check}
+                label="D Odds"
+                type="checkbox"
+                eventKey="drawOddsInput"
+                className="text-center"
+              />
+              <Accordion.Collapse eventKey="drawOddsInput">
+                <InputGroup>
+                  <Form.Control
+                    name={"drawOddsNumerator"}
+                    value={drawOddsNumerator}
+                    onChange={this.onChange}
+                  />
+                  <InputGroup.Append>
+                    <InputGroup.Text>/</InputGroup.Text>
+                  </InputGroup.Append>
+                  <Form.Control
+                    name={"drawOddsDenominator"}
+                    value={drawOddsDenominator}
+                    onChange={this.onChange}
+                  />
+                </InputGroup>
+              </Accordion.Collapse>
+            </Accordion>
+
+            <Accordion as={Col} sm={4} className="pt-2">
+              <Accordion.Toggle
+                as={Form.Check}
+                className="text-center"
+                label="A Odds"
+                type="checkbox"
+                eventKey="awayOddsInput"
+              />
+              <Accordion.Collapse eventKey="awayOddsInput">
+                <InputGroup>
+                  <Form.Control
+                    name={"awayOddsNumerator"}
+                    value={awayOddsNumerator}
+                    onChange={this.onChange}
+                  />
+                  <InputGroup.Append>
+                    <InputGroup.Text>/</InputGroup.Text>
+                  </InputGroup.Append>
+                  <Form.Control
+                    name={"awayOddsDenominator"}
+                    value={awayOddsDenominator}
+                    onChange={this.onChange}
+                  />
+                </InputGroup>
+              </Accordion.Collapse>
+            </Accordion>
+          </Form.Row>
+
+          <Form.Row className="d-flex justify-content-center pt-4">
+            <Form.Group controlId="kickOffTime">
+              <Form.Label>Kick Off:</Form.Label>
+              <Form.Control
+                as="input"
                 type="time"
-                name="kick_off"
-                id="Kick-Off"
-                className="form-check-inline"
+                name={"kick_off"}
                 value={kick_off}
                 onChange={this.onChange}
               />
-            </div>
-          </div>
-          <div className="form-group pt-4 d-flex justify-content-center">
-            <button type="submit" className="btn btn-primary">
+            </Form.Group>
+          </Form.Row>
+
+          <Form.Group
+            controlId="submitButton"
+            className="d-flex justify-content-center pt-4"
+          >
+            <Button variant="primary" type="submit">
               Submit
-            </button>
-          </div>
-        </form>
+            </Button>
+          </Form.Group>
+        </Form>
       </Fragment>
     );
   }
@@ -272,7 +219,7 @@ const mapDispatchToProps = {
   addMatch,
 };
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect(null, mapDispatchToProps)(EventForm);
 
 const decimalOdds = (numerator, denominator) => {
   return numerator / denominator + 1;
