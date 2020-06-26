@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+
 import { getData } from "../../actions/chart";
 
-export class Card extends Component {
+class MatchCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +21,7 @@ export class Card extends Component {
 
   startScrape = () => {
     const url = this.props.match.url;
-    this.intervalID = setInterval(() => this.props.getData(url), 5000);
+    this.intervalID = setInterval(() => this.props.getData(url), 60000);
     this.setState({
       scraping: true,
     });
@@ -33,27 +36,28 @@ export class Card extends Component {
 
   render() {
     const start = (
-      <button href="#" className="btn btn-primary" onClick={this.startScrape}>
+      <Button variant="primary" onClick={this.startScrape}>
         Start
-      </button>
+      </Button>
     );
     const stop = (
-      <button href="#" className="btn btn-danger" onClick={this.stopScrape}>
+      <Button variant="primary" onClick={this.stopScrape}>
         Stop
-      </button>
+      </Button>
     );
     return (
-      <div className="card text-center">
-        <div className="card-header">Live Match</div>
-        <div className="card-body">
-          <h5 className="card-title">
+      <Card className="text-center">
+        <Card.Header>Live Match</Card.Header>
+        <Card.Body>
+          <Card.Title>
             {this.props.chart.homeScore} {this.props.match.home_team} v{" "}
             {this.props.match.away_team} {this.props.chart.awayScore}
-          </h5>
+          </Card.Title>
+          <Card.Text>(Goal Scorers here)</Card.Text>
           {this.state.scraping ? stop : start}
-        </div>
-        <div className="card-footer text-muted">Using Sky</div>
-      </div>
+        </Card.Body>
+        <Card.Footer className="text-muted">Use Responsibly</Card.Footer>
+      </Card>
     );
   }
 }
@@ -67,4 +71,4 @@ const mapDispatchToProps = {
   getData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Card);
+export default connect(mapStateToProps, mapDispatchToProps)(MatchCard);
