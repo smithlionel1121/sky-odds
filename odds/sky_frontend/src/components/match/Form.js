@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { addMatch } from "../../actions/match";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -26,7 +26,7 @@ class EventForm extends Component {
     drawOddsDenominator: "",
     awayOddsNumerator: "",
     awayOddsDenominator: "",
-    kick_off: "",
+    kick_off: "00:00",
   };
 
   static propTypes = {
@@ -64,7 +64,7 @@ class EventForm extends Component {
       home_team,
       away_team,
     };
-    console.log(match);
+    // console.log(match);
     this.props.addMatch(match);
 
     this.setState({
@@ -75,8 +75,9 @@ class EventForm extends Component {
       drawOddsDenominator: "",
       awayOddsNumerator: "",
       awayOddsDenominator: "",
-      kick_off: "",
+      kick_off: "00:00",
     });
+    this.props.history.push("/data");
   };
 
   render() {

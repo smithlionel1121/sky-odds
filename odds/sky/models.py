@@ -8,6 +8,8 @@ import re
 from requests_html import HTMLSession
 from pyppeteer.errors import TimeoutError
 
+# from .odds_calcs import combi_and_profit
+
 
 class Match(models.Model):
     sky_url = models.URLField()
@@ -41,7 +43,17 @@ class Statistics(models.Model):
     away_odds = models.FloatField(null=True)
     home_score = models.IntegerField(null=True)
     away_score = models.IntegerField(null=True)
+    home_goals = models.CharField(blank=True, max_length=300)
+    away_goals = models.CharField(blank=True, max_length=300)
     minutes = models.FloatField(null=True)
+
+    # home_hedged_profit = models.FloatField(null=True)
+    # draw_hedged_profit = models.FloatField(null=True)
+    # away_hedged_profit = models.FloatField(null=True)
+    # home_hedged_ratio = models.FloatField(null=True)
+    # draw_hedged_ratio = models.FloatField(null=True)
+    # away_hedged_ratio = models.FloatField(null=True)
+
     created_at = models.TimeField(auto_now_add=True)
 
     class Meta:
@@ -51,7 +63,15 @@ class Statistics(models.Model):
         data_source = SkyScraping(self.match.sky_url)
         self.home_odds, self.draw_odds, self.away_odds = data_source.odds()
         self.minutes = data_source.time()
-        self.home_score, self.away_score = data_source.score()
+        self.home_score, self.away_score, self.home_goals, self.away_goals = data_source.score()
+
+        # home_hedged_profit, home_hedged_ratio = combi_and_profit(
+        #     self.match.home_odds, 1, self.draw_odds, self.away_odds)
+        # draw_hedged_profit, draw_hedged_ratio = combi_and_profit(
+        #     self.match.draw_odds, 1, self.home_odds, self.away_odds)
+        # away_hedged_profit, away_hedged_ratio = combi_and_profit(
+        #     self.match.away_odds, 1, self.home_odds, self.draw_odds)
+
         super(Statistics, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -138,6 +158,9 @@ class SkyScraping:
         home_team = home.find(
             '.in-play-scoreboard__team-name', first=True).text
 
+        home_data = home.find('.in-play-scoreboard__meta-list-li')
+        home_goals = "".join(x.text for x in home_data)
+
         away = self.scrape.html.find(
             '.in-play-scoreboard__score-team-away', first=True)
         away_team = away.find(
@@ -145,10 +168,16 @@ class SkyScraping:
         return home_team, away_team
 
     def score(self):
+        home = self.scrape.html.find(
+            '.in-play-scoreboard__fixture-team--home', first=True)
         home_score = self.scrape.html.find(
             '.js-scoreboard__score-home', first=True).text
+        home_data = home.find('.in-play-scoreboard__meta-list-li')
+        home_goals = "".join(x.text for x in home_data)
 
         away = self.scrape.html.find(
             '.in-play-scoreboard__score-team-away', first=True)
         away_score = away.find('.js-scoreboard__score-away', first=True).text
-        return home_score, away_score
+        away_data = away.find('.in-play-scoreboard__meta-list-li')
+        away_goals = "".join(x.text for x in away_data)
+        return home_score, away_score, home_goals, away_goals
