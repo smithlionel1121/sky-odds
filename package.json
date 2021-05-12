@@ -22,7 +22,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "plotly.js": "^1.54.7",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
