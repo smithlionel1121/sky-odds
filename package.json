@@ -20,7 +20,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
     "plotly.js": "^1.54.7",
